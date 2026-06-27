@@ -1,0 +1,43 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Validar Terraform
+        working-directory: terraform
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+      - name: Instalar Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Validar inventário
+        run: |
+          ansible-inventory -i ansible/hosts.ini --list
+
+      - name: Pipeline concluída
+        run: |
+          echo "Projeto validado com sucesso."
+          echo "O deploy em produção utiliza Ansible + SSH através de GitHub Secrets."

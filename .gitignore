@@ -1,0 +1,23 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Variáveis locais
+# terraform.tfvars
+# Mantido versionado para facilitar a execução do trabalho.
+# Não contém informações sensíveis, pois a autenticação é realizada via Azure CLI.
+
+# Terraform lock
+.terraform.lock.hcl
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Windows
+Thumbs.db
+Desktop.ini

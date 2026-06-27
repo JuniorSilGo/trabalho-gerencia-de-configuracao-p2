@@ -1,0 +1,33 @@
+---
+- name: Deploy Frontend
+  hosts: vm
+  become: true
+
+  vars:
+    repo: "https://github.com/JuniorSilGo/api-manutencao-publica-front.git"
+    app_dir: "/opt/frontend"
+
+  tasks:
+
+    - name: Clonar frontend
+      git:
+        repo: "{{ repo }}"
+        dest: "{{ app_dir }}"
+        version: main
+        force: yes
+
+    - name: Build da imagem do frontend
+      command: docker build -t api-frontend .
+      args:
+        chdir: "{{ app_dir }}"
+
+    - name: Remover container antigo
+      shell: docker rm -f api-frontend || true
+
+    - name: Executar frontend
+      command: >
+        docker run -d
+        --name api-frontend
+        --restart always
+        -p 3002:3002
+        api-frontend

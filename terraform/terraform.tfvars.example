@@ -1,0 +1,43 @@
+resource_group_name = "rg-gerencia-configuracao"
+
+location = "Brazil South"
+
+virtual_network_name = "vnet-gerencia"
+
+address_space = [
+  "10.0.0.0/16"
+]
+
+subnet_name = "subnet-default"
+
+subnet_prefixes = [
+  "10.0.1.0/24"
+]
+
+vm_name = "vm-api"
+
+vm_size = "Standard_B1s"
+
+admin_username = "azureuser"
+
+public_key_path = "~/.ssh/id_rsa.pub"
+
+server_name = "pgsql-gerencia"
+
+administrator_login = "postgresadmin"
+
+administrator_password = "TroqueEstaSenha123!"
+
+database_name = "appdb"
+
+sku_name = "B_Standard_B1ms"
+
+storage_mb = 32768
+
+version = "16"
+
+api_management_name = "apim-gerencia"
+
+publisher_name = "Junior Gomes"
+
+publisher_email = "16217515709@cefet-rj.br"

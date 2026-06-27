@@ -1,0 +1,35 @@
+---
+- name: Instalar Docker
+  hosts: vm
+  become: true
+
+  tasks:
+
+    - name: Atualizar cache do apt
+      apt:
+        update_cache: yes
+
+    - name: Instalar dependências
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - git
+        state: present
+
+    - name: Instalar Docker
+      shell: curl -fsSL https://get.docker.com | sh
+      args:
+        creates: /usr/bin/docker
+
+    - name: Iniciar Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Adicionar usuário ao grupo docker
+      user:
+        name: azureuser
+        groups: docker
+        append: yes

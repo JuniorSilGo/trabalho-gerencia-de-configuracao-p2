@@ -1,0 +1,33 @@
+---
+- name: Deploy Backend
+  hosts: vm
+  become: true
+
+  vars:
+    repo: "https://github.com/JuniorSilGo/api-manutencao-publica.git"
+    app_dir: "/opt/backend"
+
+  tasks:
+
+    - name: Clonar backend
+      git:
+        repo: "{{ repo }}"
+        dest: "{{ app_dir }}"
+        version: main
+        force: yes
+
+    - name: Build da imagem
+      command: docker build -t api-backend .
+      args:
+        chdir: "{{ app_dir }}"
+
+    - name: Remover container antigo
+      shell: docker rm -f api-backend || true
+
+    - name: Executar backend
+      command: >
+        docker run -d
+        --name api-backend
+        --restart always
+        -p 3001:3001
+        api-backend
